@@ -1,0 +1,10 @@
+# TODO
+GET http://{{host}}:{{port}}/{{app}}/v1.0/ping
+Content-Type: text/plain
+Accept: text/plain
+
+> {%
+    client.assert(response.status === 200);
+%}
+
+###

@@ -1,0 +1,36 @@
+swagger: "2.0"
+info:
+  description: "This is a sample rest server."
+  version: "1.0"
+  title: "Swagger Sample Spring Boot rest application"
+  license:
+    name: "MIT License"
+    url: "https://opensource.org/licenses/MIT"
+host: "localhost:8080"
+basePath: "/v1.0"
+schemes:
+  - "http"
+paths:
+  /ping:
+    get:
+      summary: Responds with 'pong'
+      operationId: info
+      tags:
+        - info
+      parameters:
+        - name: ignoreRequest
+          in: query
+          description: If true the application will ignore the request and timeout.
+          required: false
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: Pong
+        408:
+          description: Timeout
+        500:
+          description: Internal Error
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

@@ -1,0 +1,10 @@
+spring:
+  mvc:
+    async:
+      request-timeout: 12s #Must be larger than controller.request.timeout
+application:
+  controller:
+    request:
+      timeout: 10s
+server:
+  port: 8080

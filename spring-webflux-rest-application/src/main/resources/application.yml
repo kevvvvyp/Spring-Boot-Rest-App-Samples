@@ -1,0 +1,6 @@
+application:
+  controller:
+    request:
+      timeout: 10s
+server:
+  port: 8080
