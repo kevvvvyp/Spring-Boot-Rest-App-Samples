@@ -1,0 +1,7 @@
+### Ping
+GET http://localhost:8080/web/ping
+Accept: application/stream+json
+
+> {%
+    client.assert(response.status === 200);
+%}

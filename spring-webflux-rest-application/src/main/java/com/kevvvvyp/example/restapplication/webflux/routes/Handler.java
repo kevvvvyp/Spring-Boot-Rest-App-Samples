@@ -1,4 +1,4 @@
-package com.kevvvvyp.example.restapplication.webflux;
+package com.kevvvvyp.example.restapplication.webflux.routes;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -12,9 +12,9 @@ import java.util.Optional;
 @Component
 public class Handler {
 
-    public Mono<ServerResponse> pong(ServerRequest request) {
+    public Mono<ServerResponse> pong(final ServerRequest request) {
         return ServerResponse.ok().
-                contentType(MediaType.TEXT_PLAIN)
-                .body(BodyInserters.fromValue("pong!"));
+                contentType(MediaType.APPLICATION_NDJSON)
+                .body(BodyInserters.fromValue("pong"));
     }
 }

@@ -1,77 +1,39 @@
 package com.kevvvvyp.example.restapplication.web;
 
-import com.kevvvvyp.example.restapplication.properties.ApplicationProperties;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Stream;
+
+import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.async.DeferredResult;
 
-import javax.validation.Valid;
-import java.time.Duration;
-
-import static java.util.Objects.nonNull;
-import static java.util.Objects.requireNonNull;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Validated
 @RestController
-public class Controller extends AbstractController {
+public class Controller {
 
-    /**
-     * URI prefix for calls to the endpoints exposed under versioning.
-     */
-    public static final String API_VERSION_URI = "/v1.0";
+	@GetMapping(path = "/web/ping")
+	public String ping() {
+		return "pong";
+	}
 
-    /**
-     * URI prefix for calls to the endpoints exposed under versioning.
-     */
-    public static final String BASE_URI = "/web/" + Controller.API_VERSION_URI;
-
-    /**
-     * URI prefix for ping
-     */
-    public static final String BASE_PING_URI = Controller.BASE_URI + "/ping";
-
-    /**
-     * Object containing application properties, initialised upon application startup
-     */
-    private final ApplicationProperties appProperties;
-
-    /**
-     * Request Timeout configurable before application startup via properties yml.
-     */
-    private final Duration requestTimeout;
-
-    @Autowired
-    public Controller(@NonNull final ApplicationProperties applicationProperties) {
-        this.appProperties = applicationProperties;
-        this.requestTimeout = requireNonNull(appProperties.getController().getRequest().getTimeout(),
-                "Missing application.controller.request.timeout property");
-
-        log.info("Found request timeout: {} ms", requestTimeout.toMillis());
-    }
-
-    /**
-     * Returns a 'pong' response.
-     *
-     * @param ignoreRequest Optional flag, used to simulate & test the timeout response.
-     * @return Plain text 'pong' response
-     */
-    @GetMapping(path = BASE_PING_URI)
-    public DeferredResult<ResponseEntity<?>> ping(@Valid @RequestParam(value = "ignoreRequest", required = false) final Boolean ignoreRequest) {
-
-        log.info("START - PING");
-        if (nonNull(ignoreRequest) && ignoreRequest) //Timeout
-            return createDeferredResult(requestTimeout, null);
-
-        log.info("END - PING");
-        return createDeferredResult(requestTimeout, ResponseEntity.ok("pong"));
-    }
-
-
+	@GetMapping(path = "/web/streamPing")
+	public Stream<String> streamPing() {
+		return Stream.of( "p", "o", "n", "g" ).peek( s -> {
+			try {
+				Thread.sleep( Duration.ofSeconds( 1 ).toMillis() );
+			} catch ( InterruptedException e ) {
+				e.printStackTrace();
+			}
+		} );
+	}
 }

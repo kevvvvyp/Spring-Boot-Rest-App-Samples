@@ -1,4 +1,4 @@
-package com.kevvvvyp.example.restapplication.webflux;
+package com.kevvvvyp.example.restapplication.webflux.routes;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
@@ -13,9 +13,9 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @Component
 public class Router {
 
-    @Bean
-    public RouterFunction<ServerResponse> route(Handler handler) {
-        return RouterFunctions
-                .route(GET(Constants.BASE_PING_URI).and(accept(MediaType.ALL)), handler::pong);
-    }
+	@Bean
+	public RouterFunction<ServerResponse> route( Handler handler ) {
+		return RouterFunctions.route( GET( "/webflux-route/ping" ).and( accept( MediaType.ALL ) ),
+				handler::pong );
+	}
 }

@@ -1,0 +1,16 @@
+### Ping
+GET http://localhost:8081/webflux/ping
+Accept: application/x-ndjson
+
+> {%
+    client.assert(response.status === 200);
+%}
+
+### Ping (Using functional route & handler)
+GET http://localhost:8081/webflux-route/ping
+Accept: application/x-ndjson
+
+> {%
+    client.assert(response.status === 200);
+%}
+
